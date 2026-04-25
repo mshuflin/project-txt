@@ -1,5 +1,5 @@
 [package]
-name = "project.txt"
+name = "project-txt"
 version = "0.1.0"
 description = "A todo.txt-compatible project planner based on the GTD natural planning model."
 authors = ["mshuflin"]
