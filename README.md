@@ -1,6 +1,8 @@
+# Project.txt
 <div align="center">
   <img src="./public/app-icon.png" alt="Project.txt Logo" width="128">
 </div>
+
 > A todo.txt-compatible project planner based on the GTD natural planning model.
 
 ## Overview
