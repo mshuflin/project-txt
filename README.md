@@ -45,3 +45,6 @@ npm run tauri dev
 
 ## License
 MIT License. See `LICENSE` for more information.
+
+---
+<sub>*Built with human architecture, David Allen's GTD methodology, and AI-assisted coding tools. Zero telemetry, zero cloud dependencies, and zero built-in AI tracking.*</sub>
