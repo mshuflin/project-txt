@@ -34,11 +34,13 @@ cd project-txt
 ```
 
 2. **Install frontend dependencies:**
-```npm install
+```bash
+npm install
 ```
 
 3. **Run the development server:**
-```npm run tauri dev
+```bash
+npm run tauri dev
 ```
 
 ## License
