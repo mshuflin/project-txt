@@ -7,7 +7,7 @@
 
 ## Overview
 
-**Project.txt** bridges the gap between todo.txt-based task managers (such as Sleek), bringing plaintext productivity to the project level. The structure is based on the natural planning model found in David Allen's Getting Things Done (GTD) methodology. 
+**Project.txt** bridges the gap between [todo.txt](https://github.com/todotxt/todo.txt)-based task managers (such as Sleek), bringing plaintext productivity to the project level. The structure is based on the natural planning model found in David Allen's Getting Things Done (GTD) methodology. 
 
 Built on top of the `todo.txt` standard, **Project.txt** allows mapping out project plans for `+projects` found in a `todo.txt` file.
 
