@@ -32,10 +32,10 @@ If you want to clone the repository and run the app locally, ensure you have [No
    git clone https://github.com/mshuflin/project-txt.git
    cd project-txt
 2. **Install frontend dependencies:**
-`npm install`
+```npm install
 
 3. **Run the development server:**
-`npm run tauri dev`
+```npm run tauri dev
 
 ## License
 MIT License. See `LICENSE` for more information.
