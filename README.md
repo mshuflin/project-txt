@@ -28,15 +28,18 @@ Built on top of the `todo.txt` standard, **Project.txt** allows mapping out proj
 ## Development Setup
 If you want to clone the repository and run the app locally, ensure you have [Node.js](https://nodejs.org/) and [Rust](https://www.rust-lang.org/tools/install) installed.
 1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/mshuflin/project-txt.git
-   cd project-txt
+```bash
+git clone https://github.com/mshuflin/project-txt.git
+cd project-txt
+```
 
 2. **Install frontend dependencies:**
-```npm install
+    ```npm install
+```
 
 3. **Run the development server:**
-```npm run tauri dev
+    ```npm run tauri dev
+```
 
 ## License
 MIT License. See `LICENSE` for more information.
