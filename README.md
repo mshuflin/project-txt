@@ -25,6 +25,16 @@ Built on top of the `todo.txt` standard, **Project.txt** allows mapping out proj
 * **Editor Core:** [CodeMirror 6](https://codemirror.net/)
 * **State Management:** [Zustand](https://github.com/pmndrs/zustand)
 * **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+
+## Installation (macOS)
+1. Download the `.dmg` file from the [Releases](#) page.
+2. Double-click the `.dmg` and drag **Project.txt** into your Applications folder.
+3. **Important First-Time Launch:** Because this is an unsigned, open-source application, Apple's Gatekeeper will initially block it. To open it:
+   * Do not double-click the app. 
+   * Instead, **Right-Click** (or Control-Click) the Project.txt icon.
+   * Select **Open** from the context menu. 
+   * Click **Open** again on the warning prompt. You should only have to do this once.
+
 ## Development Setup
 If you want to clone the repository and run the app locally, ensure you have [Node.js](https://nodejs.org/) and [Rust](https://www.rust-lang.org/tools/install) installed.
 1. **Clone the repository:**
@@ -48,3 +58,4 @@ MIT License. See `LICENSE` for more information.
 
 ---
 <sub>*Built with human architecture, David Allen's GTD methodology, and AI-assisted coding tools. Zero telemetry, zero cloud dependencies, and zero built-in AI tracking.*</sub>
+
