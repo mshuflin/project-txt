@@ -230,7 +230,12 @@ export function StatsSheet() {
                           className="px-3 py-1.5 bg-background shadow-sm hover:shadow-md hover:bg-destructive/5 hover:text-destructive hover:border-destructive/40 cursor-pointer transition-all duration-300 group flex items-center gap-2 text-xs border-border/50"
                           onClick={() => handleProjectJump(path)}
                         >
-                          <span className="font-medium tracking-tight text-destructive/80 group-hover:text-destructive">{path.split("/").pop().replace(".md", "")}</span>
+                          <span className="font-medium tracking-tight text-destructive/80 group-hover:text-destructive">
+                            {(() => {
+                              const name = path.split("/").pop().replace(".md", "");
+                              return name.startsWith("+") ? name : "+" + name;
+                            })()}
+                          </span>
                           <ArrowRight className="h-3 w-3 opacity-40 group-hover:opacity-100 group-hover:text-destructive -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
                         </Badge>
                       ))}
@@ -256,7 +261,7 @@ export function StatsSheet() {
                           onClick={() => handleZombieJump(tag)}
                         >
                           <span className="font-medium tracking-tight text-destructive/80 group-hover:text-destructive">
-                            {tag.startsWith('++') ? tag.slice(1) : tag}
+                            {tag}
                           </span>
                           <ArrowRight className="h-3 w-3 opacity-40 group-hover:opacity-100 group-hover:text-destructive transition-opacity" />
                         </Badge>

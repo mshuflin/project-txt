@@ -22,12 +22,13 @@ export function ActionList() {
     );
   }
 
-  // Extract just the base filename (e.g., projects/+Work.md -> +Work)
-  const projectName = activeProject.split('/').pop().replace('.md', '');
+  // Extract just the base filename and ensure it has a + prefix for comparison
+  const baseName = activeProject.split('/').pop().replace('.md', '');
+  const projectName = baseName.startsWith('+') ? baseName : `+${baseName}`;
 
   // Filter tasks: ONLY show tasks where task.projects contains the exact +projectName
   const filteredTasks = tasks.filter((task) => 
-    task.projects.includes(projectName) && !task.completed
+    task.projects.some(p => p.toLowerCase() === projectName.toLowerCase()) && !task.completed
   );
 
   // Sort: By task.priority (A-Z) first. Nulls at the end.

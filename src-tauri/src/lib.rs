@@ -1,5 +1,5 @@
 use std::fs::{self, OpenOptions};
-use std::collections::{HashSet, HashMap};
+use std::collections::HashMap;
 use std::io::Write;
 use std::path::{PathBuf, Path};
 use std::sync::Mutex;
@@ -282,10 +282,11 @@ fn check_active_tasks(root_dir: &str, project_tag: &str) -> Result<bool, String>
     let contents = fs::read_to_string(&todo_path).map_err(|e| format!("Failed to read todo.txt: {}", e))?;
     
     // Check if any active task contains the project tag (e.g. +Work)
+    let search_tag = project_tag.to_lowercase();
     let exists = contents.lines()
         .filter(|line| !line.trim().is_empty())
         .map(|line| parse_task(line))
-        .any(|task| !task.completed && task.projects.contains(&project_tag.to_string()));
+        .any(|task| !task.completed && task.projects.iter().any(|p| p.to_lowercase() == search_tag));
 
     Ok(exists)
 }
@@ -334,16 +335,19 @@ fn calculate_metrics(root_dir: &str) -> Result<MetricsPayload, String> {
     let mut projectless_actions_count = 0;
     let mut threshold_passed_count = 0;
     let mut inbox_items_count = 0;
-    let mut tasks_project_tags = HashSet::new();
+    let mut tasks_project_tags: HashMap<String, String> = HashMap::new();
 
     for line in todo_contents.lines().filter(|l| !l.trim().is_empty()) {
         let task = parse_task(line);
         if !task.completed {
             total_tasks_count += 1;
             
-            // Collect project tags for diffing later (normalized)
+            // Collect project tags for diffing later (normalized key -> original value)
             for tag in &task.projects {
-                tasks_project_tags.insert(normalize_tag(tag));
+                let norm = normalize_tag(tag);
+                if !tasks_project_tags.contains_key(&norm) {
+                    tasks_project_tags.insert(norm, tag.clone());
+                }
             }
 
             // Inbox Check: No projects AND no contexts
@@ -383,7 +387,7 @@ fn calculate_metrics(root_dir: &str) -> Result<MetricsPayload, String> {
     for (norm_tag, (original_stem, folders)) in &project_file_map {
         let is_active_folder = folders.iter().any(|f| f == "" || f == "projects");
         if is_active_folder {
-            if !tasks_project_tags.contains(norm_tag) {
+            if !tasks_project_tags.contains_key(norm_tag) {
                 // Return relative path for frontend jump
                 // Find which folder it was actually in for the path
                 let folder = folders.iter()
@@ -400,27 +404,25 @@ fn calculate_metrics(root_dir: &str) -> Result<MetricsPayload, String> {
             }
         }
     }
-    actionless_projects.sort();
+    actionless_projects.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
 
     // Orphans & Zombies: Iterate tags found in tasks
-    for norm_tag in tasks_project_tags {
+    for (norm_tag, original_tag) in tasks_project_tags {
         match project_file_map.get(&norm_tag) {
             None => {
-                // Return original tag? We only have the normalized version here.
-                // In a real system, we might want to store example original tags in todo.txt.
-                // For now, we'll prefix '+' to the norm_tag for the UI.
-                orphaned_projects.push(format!("+{}", norm_tag)); 
+                // Orphaned: No corresponding .md file found
+                orphaned_projects.push(original_tag); 
             }
-            Some((original_stem, folders)) => {
+            Some((_original_stem, folders)) => {
                 // Zombie: Exists ONLY in archive folder
                 if folders.len() == 1 && folders[0] == "archive" {
-                    zombie_projects.push(format!("+{}", original_stem));
+                    zombie_projects.push(original_tag);
                 }
             }
         }
     }
-    orphaned_projects.sort();
-    zombie_projects.sort();
+    orphaned_projects.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
+    zombie_projects.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
 
     // 4. Recently Completed (Done.txt)
     let mut recently_completed_count = 0;
