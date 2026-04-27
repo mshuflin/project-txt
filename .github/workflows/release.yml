@@ -33,9 +33,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: v0.1.1
-          releaseName: 'Project.txt v0.1.1'
-          releaseBody: 'Gatekeeper Hotfix: Added Ad-Hoc signing and Ditto compression to address integrity issues.'
+          tagName: v0.1.2
+          releaseName: 'Project.txt v0.1.2'
+          releaseBody: 'UI/Backend Fixes: Preserves original CamelCase project names and improves task filtering logic.'
           releaseDraft: true
           prerelease: false
 
@@ -48,10 +48,10 @@ jobs:
           # Apply fresh ad-hoc signature
           codesign --force --deep --sign - "$APP_PATH"
           
-          # Zip it using 'ditto' to preserve macOS-specific file attributes
-          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" Project.txt_v0.1.1_macOS.zip
+          # Zip it using 'ditto' with the NEW version name
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" Project.txt_v0.1.2_macOS.zip
           
-          # Upload the Zip to the new release
-          gh release upload v0.1.1 Project.txt_v0.1.1_macOS.zip --clobber
+          # Upload the Zip to the NEW release tag
+          gh release upload v0.1.2 Project.txt_v0.1.2_macOS.zip --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
